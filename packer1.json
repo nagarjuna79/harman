@@ -13,7 +13,8 @@
       "source_ami": "ami-0912f71e06545ad88",
       "instance_type": "t2.micro",
       "ssh_username": "ec2-user",
-      "ami_name": "miniprj_nagarjuna_ami"
+      "ami_name": "miniprj_nagarjuna_ami",
+      "owners": ["474420139077"]
     }
   ],
   "provisioners": [
