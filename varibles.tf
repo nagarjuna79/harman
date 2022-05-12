@@ -7,7 +7,7 @@ variable "keyname"{
 }
 variable "region" {
   type        = string
-  default     = "ap-south-1"
+  default     = "us-east-2"
   description = "default region"
 }
 
