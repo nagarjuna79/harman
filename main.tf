@@ -295,7 +295,7 @@ resource "aws_launch_configuration" "webserver-launch-config" {
 
 # Create Auto Scaling Group
 resource "aws_autoscaling_group" "Demo-ASG-tf" {
-  name		     = "Demo-ASG-tf"
+  name		     = "Demo1-ASG-tf"
   desired_capacity   = 1
   max_size           = 2
   min_size           = 1
@@ -308,7 +308,7 @@ resource "aws_autoscaling_group" "Demo-ASG-tf" {
 
  tag {
     key                 = "Name"
-    value               = "Demo-ASG-tf"
+    value               = "Demo1-ASG-tf"
     propagate_at_launch = true
     }
 } 
@@ -316,7 +316,7 @@ resource "aws_autoscaling_group" "Demo-ASG-tf" {
 # Create Target group
 
 resource "aws_lb_target_group" "TG-tf" {
-  name     = "Demo-TargetGroup-tf"
+  name     = "Demo1-TargetGroup-tf"
   depends_on = ["aws_vpc.main"]
   port     = 80
   protocol = "HTTP"
@@ -336,14 +336,14 @@ resource "aws_lb_target_group" "TG-tf" {
 # Create ALB
 
 resource "aws_lb" "ALB-tf" {
-   name              = "Demo-ALG-tf"
+   name              = "Demo1-ALG-tf"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.elb_sg.id]
   subnets            = [aws_subnet.pub_sub1.id,aws_subnet.pub_sub2.id]
 
   tags = {
-	name  = "Demo-AppLoadBalancer-tf"
+	name  = "Demo1-AppLoadBalancer-tf"
     	Project = "demo-assignment"
   }
 }
