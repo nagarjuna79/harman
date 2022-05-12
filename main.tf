@@ -294,7 +294,7 @@ resource "aws_launch_configuration" "webserver-launch-config" {
 
 # Create Auto Scaling Group
 resource "aws_autoscaling_group" "Demo-ASG-tf" {
-  name		     = "Demo1-ASG-tf"
+  name		     = "Demo2-ASG-tf"
   desired_capacity   = 2
   max_size           = 4
   min_size           = 2
@@ -352,7 +352,7 @@ resource "aws_lb" "ALB-tf" {
   subnets            = [aws_subnet.pub_sub1.id,aws_subnet.pub_sub2.id]
 
   tags = {
-	name  = "Demo1-AppLoadBalancer-tf"
+	name  = "Demo2-AppLoadBalancer-tf"
     	Project = "demo-assignment"
   }
 }
