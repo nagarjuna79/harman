@@ -30,7 +30,6 @@ node(){
               cd harman
               sudo git init
               sudo git add *
-              sudo git add .terraform/
               sudo git status
               sudo git commit -am.
               sudo git push origin terraform-scripts -f'''
