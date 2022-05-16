@@ -309,7 +309,7 @@ resource "aws_autoscaling_group" "Demo-ASG-tf" {
     strategy = "Rolling"
     preferences {
       // You probably want more than 50% healthy depending on how much headroom you have
-      min_healthy_percentage = 50
+      min_healthy_percentage = 100
     }
     // Depending the triggers you wish to configure, you may not want to include this
     triggers = ["tag"]
