@@ -15,7 +15,7 @@
   systemctl enable nginx
   
 # Download and copy index.html to nginx home directory
-  aws s3 cp s3://webapp-bucket12345/indexfiles/index.html index.html
+  aws s3 cp s3://webapp-bucket12345/indexfiles/index.html .
   sudo cp ./index.html /usr/share/nginx/html/index.html
-
+  rm -rf index.html
   
