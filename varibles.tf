@@ -1,13 +1,13 @@
 variable "ami"{
  type = string
-  default = "ami-010aff33ed5991201"
+  default = "ami-02541b8af977f6cdd"
 }
 variable "keyname"{
   default = "ec2-bastion"
 }
 variable "region" {
   type        = string
-  default     = "us-east-2"
+  default     = "us-west-1"
   description = "default region"
 }
 

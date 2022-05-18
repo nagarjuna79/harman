@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
 
   tags = {
     Project = "demo-assignment"
-    Name = "My Demo VPC"
+    Name = "My-Demo-VPC-1"
  }
 }
 
@@ -17,7 +17,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "pub_sub1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.pub_sub1_cidr_block
-  availability_zone       = "ap-south-1a"
+  availability_zone       = "us-west-1b"
   map_public_ip_on_launch = true
   tags = {
     Project = "demo-assignment"
@@ -31,7 +31,7 @@ resource "aws_subnet" "pub_sub1" {
 resource "aws_subnet" "pub_sub2" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.pub_sub2_cidr_block
-  availability_zone       = "ap-south-1b"
+  availability_zone       = "us-west-1c"
   map_public_ip_on_launch = true
   tags = {
     Project = "demo-assignment"
@@ -43,7 +43,7 @@ resource "aws_subnet" "pub_sub2" {
 resource "aws_subnet" "prv_sub1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.prv_sub1_cidr_block
-  availability_zone       = "ap-south-1a"
+  availability_zone       = "us-west-1b"
   map_public_ip_on_launch = false
 
   tags = {
@@ -56,7 +56,7 @@ resource "aws_subnet" "prv_sub1" {
 resource "aws_subnet" "prv_sub2" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.prv_sub2_cidr_block
-  availability_zone       = "ap-south-1b"
+  availability_zone       = "us-west-1c"
   map_public_ip_on_launch = false
 
   tags = {
@@ -182,7 +182,7 @@ resource "aws_route_table_association" "pri_sub2_to_natgw1" {
 
 # Create security group for load balancer
 
-resource "aws_security_group" "elb_sg" {
+resource "aws_security_group" "elb_sg_1" {
   name        = var.sg_name
   description = var.sg_description
   vpc_id      = aws_vpc.main.id
@@ -211,7 +211,7 @@ egress {
 
 # Create security group for webserver
 
-resource "aws_security_group" "webserver_sg" {
+resource "aws_security_group" "webserver_sg_1" {
   name        = var.sg_ws_name
   description = var.sg_ws_description
   vpc_id      = aws_vpc.main.id
@@ -256,7 +256,7 @@ resource "aws_instance" "Bastion-Host" {
   key_name = "ec2-bastion"
    
   # Security group ID's
-  vpc_security_group_ids = [aws_security_group.webserver_sg.id]
+  vpc_security_group_ids = [aws_security_group.webserver_sg_1.id]
   tags = {
    Name = "Bastion-Host"
   }
@@ -270,7 +270,7 @@ resource "aws_launch_configuration" "webserver-launch-config" {
   instance_type = "t2.micro"
   key_name	= var.keyname
   iam_instance_profile = aws_iam_instance_profile.test_profile.name
-  security_groups = ["${aws_security_group.webserver_sg.id}"]
+  security_groups = ["${aws_security_group.webserver_sg_1.id}"]
   
   root_block_device {
             volume_type = "gp2"
@@ -294,7 +294,7 @@ resource "aws_launch_configuration" "webserver-launch-config" {
 
 # Create Auto Scaling Group
 resource "aws_autoscaling_group" "Demo-ASG-tf" {
-  name		     = "Demo2-ASG-tf"
+  name		     = "Demo3-ASG-tf"
   desired_capacity   = 2
   max_size           = 4
   min_size           = 2
@@ -308,14 +308,13 @@ resource "aws_autoscaling_group" "Demo-ASG-tf" {
   instance_refresh {
     strategy = "Rolling"
     preferences {
-      // You probably want more than 50% healthy depending on how much headroom you have
-      min_healthy_percentage = 100
+      min_healthy_percentage = 50
     }
-    // Depending the triggers you wish to configure, you may not want to include this
     triggers = ["tag"]
   }
 
- tag {
+
+  tag {
     key                 = "Name"
     value               = "Demo1-ASG-tf"
     propagate_at_launch = true
@@ -345,10 +344,10 @@ resource "aws_lb_target_group" "TG-tf" {
 # Create ALB
 
 resource "aws_lb" "ALB-tf" {
-   name              = "Demo1-ALG-tf"
+  name              = "Demo1-ALG-tf"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.elb_sg.id]
+  security_groups    = [aws_security_group.elb_sg_1.id]
   subnets            = [aws_subnet.pub_sub1.id,aws_subnet.pub_sub2.id]
 
   tags = {

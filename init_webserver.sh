@@ -13,9 +13,20 @@
   amazon-linux-extras install nginx1 -y
   systemctl start nginx
   systemctl enable nginx
+  sudo mkdir -p /usr/share/nginx/html/app1/
   
-# Download and copy index.html to nginx home directory
-  aws s3 cp s3://webapp-bucket12345/indexfiles/index.html .
-  sudo cp ./index.html /usr/share/nginx/html/index.html
-  rm -rf index.html
-  
+
+# Install code deploy agent
+  sudo yum update -y
+  sudo yum install ruby wget -y
+  cd /home/ec2-user
+  wget https://aws-codedeploy-us-west-1.s3.us-west-1.amazonaws.com/latest/install
+  chmod +x ./install
+  sudo ./install auto
+
+
+
+
+
+
+
