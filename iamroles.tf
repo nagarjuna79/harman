@@ -1,10 +1,10 @@
 resource "aws_iam_role" "ec2_s3_access_role" {
-  name               = "s3-role-7"
+  name               = "s3-role-8"
   assume_role_policy = "${file("assumepolicy.json")}"
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "test-policy-7"
+  name        = "test-policy-8"
   description = "A test policy"
   policy      = "${file("policys3bucket.json")}"
 }
